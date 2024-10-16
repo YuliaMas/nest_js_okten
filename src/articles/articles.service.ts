@@ -9,7 +9,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 export class ArticlesService {
   constructor(
     private readonly userService: UsersService,
-    private readonly commentService: CommentsService,
+    private readonly commentsService: CommentsService,
   ) {}
   create(dto: CreateArticleDto) {
     this.userService.checkAbilityToEditArticle('authorId', 'dto.id');
@@ -29,7 +29,7 @@ export class ArticlesService {
   }
 
   remove(id: number) {
-    this.commentService.deleteAllCommentsForArticle('articleId');
+    this.commentsService.deleteAllCommentsForArticle('articleId');
     return `This action removes a #${id} user`;
   }
 }

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -19,10 +20,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { CreateUserReqDto } from './dto/req/create-user.req.dto';
-import { UpdateUserReqDto } from './dto/req/update-user.req.dto';
-import { UserListReqDto } from './dto/req/user-list.req.dto';
-import { UserResDto } from './dto/res/user.res.dto';
+import { CreateUserReqDto } from './models/dto/req/create-user.req.dto';
+import { UpdateUserReqDto } from './models/dto/req/update-user.req.dto';
+import { UserListReqDto } from './models/dto/req/user-list.req.dto';
+import { UserResDto } from './models/dto/res/user.res.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -52,7 +53,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(+id);
   }
 

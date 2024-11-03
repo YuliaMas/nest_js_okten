@@ -11,10 +11,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS-2024 OktenWeb')
-    .setDescription('The users API description')
+    .setTitle('March-2024 NestJS')
+    .setDescription('The cats API description')
     .setVersion('1.0')
-    .addTag('users')
     .addBearerAuth({
       in: 'header',
       type: 'http',
@@ -26,36 +25,30 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      transform: false,
       forbidNonWhitelisted: true,
-      transform: true,
     }),
   );
 
   const document = SwaggerModule.createDocument(app, config);
-
   SwaggerHelper.setDefaultResponses(document);
-
-  SwaggerModule.setup('api', app, document, {
+  SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
       docExpansion: 'list',
       defaultModelsExpandDepth: 7,
       persistAuthorization: true,
     },
   });
-
-  // const port = 3000;
-  // const host = 'localhost';
   const configService = app.get(ConfigService);
   const appConfig = configService.get<AppConfig>('app');
-
-  await app.listen(3000, () => {
-    // console.log(configService.get('app'));
+  await app.listen(appConfig.port, () => {
     console.log(
       `Server is running on http://${appConfig.host}:${appConfig.port}`,
     );
     console.log(
-      `Swagger is running on http://${appConfig.host}:${appConfig.port}/api`,
+      `Swagger is running on http://${appConfig.host}:${appConfig.port}/docs`,
     );
   });
+  console.log();
 }
 void bootstrap();

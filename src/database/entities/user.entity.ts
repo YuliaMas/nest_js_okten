@@ -1,8 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, VirtualColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  // VirtualColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'text', nullable: true })
@@ -17,8 +24,17 @@ export class UserEntity {
   @Column('boolean', { default: true })
   isActive: boolean;
 
-  // @Column()
-  // bio: string;
+  @Column('text', { nullable: true })
+  bio: string;
+
+  @Column('text', { nullable: true })
+  image: string;
+
+  @CreateDateColumn()
+  created: Date;
+
+  @UpdateDateColumn()
+  updated: Date;
 
   // @VirtualColumn({
   //   query: () => 'SELECT CONCAT(firstName, lastName) FROM users WHERE id=id',

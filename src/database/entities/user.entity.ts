@@ -1,25 +1,26 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  // VirtualColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('users')
-export class UserEntity {
+import { ArticleEntity } from './article.entity';
+import { CommentEntity } from './comment.entity';
+import { TableNameEnum } from './enums/table-name.enum';
+import { FollowEntity } from './follow.entity';
+import { LikeEntity } from './like.entity';
+import { CreateUpdateModel } from './models/create-update.model';
+import { RefreshTokenEntity } from './refresh-token.entity';
+
+@Entity(TableNameEnum.USERS)
+export class UserEntity extends CreateUpdateModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'text', nullable: true })
-  firstName: string;
+  @Column('text')
+  name: string;
 
   @Column('text', { unique: true })
   email: string;
 
   @Column('text')
-  lastName: string;
+  password: string;
 
   @Column('boolean', { default: true })
   isActive: boolean;
@@ -30,14 +31,21 @@ export class UserEntity {
   @Column('text', { nullable: true })
   image: string;
 
-  @CreateDateColumn()
-  created: Date;
+  @OneToMany(() => RefreshTokenEntity, (entity) => entity.user)
+  refreshTokens?: RefreshTokenEntity[];
 
-  @UpdateDateColumn()
-  updated: Date;
+  @OneToMany(() => ArticleEntity, (entity) => entity.user)
+  articles?: ArticleEntity[];
 
-  // @VirtualColumn({
-  //   query: () => 'SELECT CONCAT(firstName, lastName) FROM users WHERE id=id',
-  // })
-  // fullName: string;
+  @OneToMany(() => LikeEntity, (entity) => entity.user)
+  likes?: LikeEntity[];
+
+  @OneToMany(() => CommentEntity, (entity) => entity.user)
+  comments?: CommentEntity[];
+
+  @OneToMany(() => FollowEntity, (entity) => entity.follower)
+  followers?: FollowEntity[];
+
+  @OneToMany(() => FollowEntity, (entity) => entity.following)
+  followings?: FollowEntity[];
 }

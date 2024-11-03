@@ -21,14 +21,12 @@ import { TransformHelper } from '../../../../../common/helpers/transform.helper'
 import { GenderEnum } from '../../enums/gender.enum';
 
 export class CarBaseReqDto {
-  // @Transform(({value}) => value.trim())
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toLowerCase)
   @IsString()
   @Length(3, 50)
   producer: string;
 
-  // @Transform(({value}) => value.trim())
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toLowerCase)
   @IsString()
@@ -38,13 +36,13 @@ export class CarBaseReqDto {
   @ApiProperty({ example: 2021 })
   @Type(() => Number)
   @IsInt()
-  @Min(1990)
+  @Min(1900)
   year: number;
 }
 
 export class UserBaseReqDto {
-  // @Transform(({value}) => value.trim())
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toLowerCase)
   @IsString()
   @Length(3, 50)
   name: string;
@@ -56,8 +54,7 @@ export class UserBaseReqDto {
   @IsOptional()
   age?: number;
 
-  @ApiProperty({ example: 'yulia@gmail.com' })
-  // @Transform(({value}) => value.toLowerCase().trim())
+  @ApiProperty({ example: 'string@test.com' })
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toLowerCase)
   @ValidateIf((obj) => !obj.phone)
@@ -65,14 +62,11 @@ export class UserBaseReqDto {
   @IsEmail()
   email: string;
 
-  // @Transform(({value}) => value.trim())
   @Transform(TransformHelper.trim)
   @ValidateIf((obj) => !obj.email)
-  @IsOptional()
   @IsString()
   phone: string;
 
-  @Transform(TransformHelper.trim)
   @IsOptional()
   @IsEnum(GenderEnum)
   gender: GenderEnum;
@@ -81,8 +75,7 @@ export class UserBaseReqDto {
   @IsOptional()
   isStudent: boolean = false;
 
-  @ApiProperty({ example: '123Liesdhjl' })
-  // @Transform(({value}) => value.trim())
+  @ApiProperty({ example: '12qw4qeASD' })
   @Transform(TransformHelper.trim)
   @IsNotIn(['password', '123456', 'qwerty'])
   @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {

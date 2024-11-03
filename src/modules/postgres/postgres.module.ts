@@ -3,13 +3,14 @@ import * as process from 'node:process';
 
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 
 import { Config, DatabaseConfig } from '../../configs/config.type';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
+      imports: undefined,
       useFactory: (configService: ConfigService<Config>) => {
         const config = configService.get<DatabaseConfig>('database');
         return {
@@ -41,8 +42,7 @@ import { Config, DatabaseConfig } from '../../configs/config.type';
           ],
           synchronize: false,
           migrationsRun: true,
-          // logging: true
-        };
+        } as TypeOrmModuleAsyncOptions;
       },
       inject: [ConfigService],
     }),

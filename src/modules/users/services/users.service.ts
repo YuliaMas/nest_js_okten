@@ -1,17 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { AppConfig, Config } from '../../../configs/config.type';
+import { UserRepository } from '../../repository/services/user.repository';
 import { CreateUserReqDto } from '../models/dto/req/create-user.req.dto';
 import { UpdateUserReqDto } from '../models/dto/req/update-user.req.dto';
 import { UserResDto } from '../models/dto/res/user.res.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly configService: ConfigService<Config>) {}
+  constructor(
+    private readonly configService: ConfigService<Config>,
+    private userRepository: UserRepository,
+  ) {}
 
   public async create(createUserDto: CreateUserReqDto): Promise<UserResDto> {
     const appConfig = this.configService.get<AppConfig>('database');
+    throw new ForbiddenException('sdfg');
     console.log(appConfig);
     return {} as UserResDto;
   }
@@ -33,6 +38,6 @@ export class UsersService {
   }
 
   public async checkAbilityToEditArticle(userId: string, articleId: string) {
-    // check if the user has permission to edit the article
+    // Check if the user has permission to edit the article
   }
 }

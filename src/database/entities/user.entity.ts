@@ -26,10 +26,10 @@ export class UserEntity extends CreateUpdateModel {
   isActive: boolean;
 
   @Column('text', { nullable: true })
-  bio: string;
+  bio?: string;
 
   @Column('text', { nullable: true })
-  image: string;
+  image?: string;
 
   @OneToMany(() => RefreshTokenEntity, (entity) => entity.user)
   refreshTokens?: RefreshTokenEntity[];

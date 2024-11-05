@@ -26,13 +26,13 @@ export class UserEntity extends CreateUpdateModel {
   isActive: boolean;
 
   @Column('text', { nullable: true })
-  bio?: string;
+  bio: string;
 
   @Column('text', { nullable: true })
-  image?: string;
+  image: string;
 
   @OneToMany(() => RefreshTokenEntity, (entity) => entity.user)
-  refreshTokens?: RefreshTokenEntity[];
+  refreshToken?: RefreshTokenEntity[];
 
   @OneToMany(() => ArticleEntity, (entity) => entity.user)
   articles?: ArticleEntity[];
@@ -47,5 +47,5 @@ export class UserEntity extends CreateUpdateModel {
   followers?: FollowEntity[];
 
   @OneToMany(() => FollowEntity, (entity) => entity.following)
-  followings?: FollowEntity[];
+  following?: FollowEntity[];
 }
